@@ -1,3 +1,9 @@
+import UserFormRegister from "@/components/UserFormRegister";
+
 export default function Home() {
-  return <div className="text-3xl font-bold underline">Hello</div>;
+  return (
+    <div className="">
+      <UserFormRegister />
+    </div>
+  );
 }

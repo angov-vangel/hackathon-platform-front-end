@@ -37,16 +37,17 @@ const RegistrationForm = () => {
   };
 
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="py-8">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col space-y-4"
+        className="flex flex-col space-y-4 w-4/12 mx-auto"
       >
         <label htmlFor="name">Name</label>
         <input
           type="text"
           id="name"
           {...register("name", { required: true })}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
         />
         {errors.name && <span className="text-red-500">Name is required</span>}
         <label htmlFor="email">Email</label>
@@ -54,6 +55,7 @@ const RegistrationForm = () => {
           type="email"
           id="email"
           {...register("email", { required: true })}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
         />
         {errors.email && (
           <span className="text-red-500">Email is required</span>
@@ -63,6 +65,7 @@ const RegistrationForm = () => {
           type="tel"
           id="phone"
           {...register("phone", { required: true })}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
         />
         {errors.phone && (
           <span className="text-red-500">Phone is required</span>
@@ -72,12 +75,17 @@ const RegistrationForm = () => {
           type="text"
           id="academy"
           {...register("academy", { required: true })}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
         />
         {errors.academy && (
           <span className="text-red-500">Academy is required</span>
         )}
         <label htmlFor="group">Group</label>
-        <select id="group" {...register("group", { required: true })}>
+        <select
+          id="group"
+          {...register("group", { required: true })}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+        >
           <option value="">--Please choose an option--</option>
           <option value="A">Group A</option>
           <option value="B">Group B</option>
@@ -90,6 +98,7 @@ const RegistrationForm = () => {
         <select
           id="participation"
           {...register("participation", { required: true })}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
         >
           <option value="">--Please choose an option--</option>
           <option value="live">Live</option>
@@ -103,12 +112,22 @@ const RegistrationForm = () => {
           type="text"
           id="food-preferences"
           {...register("foodPreferences")}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
         />
         <label htmlFor="food-allergies">Food Allergies</label>
-        <input type="text" id="food-allergies" {...register("foodAllergies")} />
+        <input
+          type="text"
+          id="food-allergies"
+          {...register("foodAllergies")}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+        />
         <label htmlFor="additional-info">Additional Info</label>
-        <textarea id="additional-info" {...register("additionalInfo")} />
-        bash Copy code
+        <textarea
+          id="additional-info"
+          {...register("additionalInfo")}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+        />
+
         {serverError && <span className="text-red-500">{serverError}</span>}
         <button
           type="submit"

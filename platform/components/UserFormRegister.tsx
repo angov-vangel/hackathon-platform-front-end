@@ -40,7 +40,7 @@ const RegistrationForm = () => {
     <div className="py-8">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col space-y-4 w-4/12 mx-auto"
+        className="flex flex-col space-y-4 md:w-4/12 w-11/12 mx-auto"
       >
         <label htmlFor="name">Name</label>
         <input

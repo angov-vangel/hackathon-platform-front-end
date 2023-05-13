@@ -1,10 +1,10 @@
 import UserFormRegister from "@/components/UserFormRegister";
-
+import React from "react";
 export default function Home() {
   return (
     <div className="">
       <UserFormRegister />
-      <div>proba</div>
+      <div>Proba</div>
     </div>
   );
 }

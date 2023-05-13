@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios, { AxiosError } from "axios";
 
@@ -14,6 +14,11 @@ interface FormValues {
   additionalInfo: string;
 }
 
+type Academy = {
+  id: number;
+  name: string;
+};
+
 const RegistrationForm = () => {
   const {
     register,
@@ -22,6 +27,9 @@ const RegistrationForm = () => {
   } = useForm<FormValues>();
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [academies, setAcademies] = useState<Academy[]>([]);
+  const [selectedAcademy, setSelectedAcademy] = useState<Academy | null>(null);
+  const [options, setOptions] = useState<string[]>([]);
 
   const onSubmit = async (data: FormValues) => {
     try {
@@ -34,6 +42,42 @@ const RegistrationForm = () => {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  useEffect(() => {
+    const fetchAcademies = async () => {
+      try {
+        const response = await axios.get<Academy[]>("/api/academies");
+        setAcademies(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAcademies();
+  }, []);
+
+  useEffect(() => {
+    if (selectedAcademy) {
+      const fetchOptions = async () => {
+        try {
+          const response = await axios.get<string[]>(
+            `/api/academies/${selectedAcademy.id}/options`
+          );
+          setOptions(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      fetchOptions();
+    }
+  }, [selectedAcademy]);
+
+  const handleAcademyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const academyId = Number(event.target.value);
+    const academy = academies.find((a) => a.id === academyId) || null;
+    setSelectedAcademy(academy);
   };
 
   return (
@@ -70,29 +114,36 @@ const RegistrationForm = () => {
         {errors.phone && (
           <span className="text-red-500">Phone is required</span>
         )}
-        <label htmlFor="academy">Academy</label>
-        <input
-          type="text"
-          id="academy"
-          {...register("academy", { required: true })}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-        />
-        {errors.academy && (
-          <span className="text-red-500">Academy is required</span>
-        )}
-        <label htmlFor="group">Group</label>
+        <label htmlFor="academy">Select Academy:</label>
         <select
-          id="group"
-          {...register("group", { required: true })}
+          id="academy"
+          name="academy"
+          onChange={handleAcademyChange}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
         >
-          <option value="">--Please choose an option--</option>
-          <option value="A">Group A</option>
-          <option value="B">Group B</option>
-          <option value="C">Group C</option>
+          <option value="">--Please select an academy--</option>
+          {academies.map((academy) => (
+            <option key={academy.id} value={academy.id}>
+              {academy.name}
+            </option>
+          ))}
         </select>
-        {errors.group && (
-          <span className="text-red-500">Group is required</span>
+
+        {selectedAcademy && (
+          <div>
+            <label htmlFor="options">Select Options:</label>
+            <select
+              id="options"
+              name="options"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            >
+              {options.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
         )}
         <label htmlFor="participation">Participation</label>
         <select
